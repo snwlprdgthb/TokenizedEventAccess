@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @font-face {
+  font-family: "ABeeZee";
+  src: url("../public/fonts/ABeeZee-Regular.ttf");
+} */
+
+@layer components {
+  .textHoverZinc {
+    @apply text-zinc-50 hover:text-zinc-400;
+  }
+}
+
+body {
+  background: black;
+}
+
+.image-wrapper > span {
+  height: 100% !important;
+}
+
+.blackGradient {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 15%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  z-index: -1;
+  height: 150%;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+}
+
+.custom {
+  z-index: 0;
+  top: 850px;
+  right: -600px;
+  opacity: 15%;
+}
+
+.customFull {
+  z-index: 0;
+  top: -45%;
+  right: -600px;
+  opacity: 20%;
+}
+
+.selectBread {
+  border-bottom-color: #7fff00;
+  border-bottom-width: 1px;
+}
+
+.animation-box {
+  width: 100%;
+  position: relative;
+  background: black;
+}
+.centered {
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* 	background: green;
+	filter: blur(3px) contrast(10); */
+}
+.blob-1,
+.blob-2 {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  background: black;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.blob-1 {
+  left: 20%;
+  animation: osc-l 4.5s ease infinite;
+  border: 3px solid rgb(99, 102, 241);
+}
+.blob-2 {
+  left: 80%;
+  animation: osc-r 4.5s ease infinite;
+  border: 3px solid #7fff00;
+}
+@keyframes osc-l {
+  0% {
+    left: -40%;
+  }
+  50% {
+    left: 30%;
+  }
+
+  100% {
+    left: -40%;
+  }
+}
+@keyframes osc-r {
+  0% {
+    left: 140%;
+  }
+  50% {
+    left: 30%;
+  }
+  100% {
+    left: 140%;
+  }
+}
