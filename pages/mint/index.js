@@ -4,6 +4,8 @@ import { BaseLayout } from "@components/layout";
 import { useWeb3 } from "@components/web3";
 import { useAccount } from "@components/hooks/useAccount";
 import  InputPanel  from "@components/inputPanel";
+import  MMPanel  from "@components/MMPanel";
+import weiToEth from '../../utils/weiToETH';
 // import weiToEth from '../../utils/weiToETH';
 
 
@@ -19,7 +21,9 @@ export default function Mint({ items }) {
     let [tokenPrice, setTokenprice] =  useState("");
     let [maxMintAmountPerTx, setMaxMintAmountPerTx] =  useState("");
     let [mintWave, setMintWave] =  useState("");
-    let [supply, setSupply] =  useState("");
+    let [supply, setSupply] =  useState();
+    let [maxSupply, setMaxSupply] = useState();
+
     let [paused, setPaused] =  useState(true);
     let [isWhitelistMintEnabled, setIsWhitelistMintEnabled] =  useState(true);
 
@@ -37,6 +41,7 @@ export default function Mint({ items }) {
         setMaxMintAmountPerTx(await contract.methods.maxMintAmountPerTx().call());
         setMintWave(await contract.methods.mintWave().call());
         setSupply(await contract.methods.totalSupply().call());
+        setMaxSupply(await contract.methods.maxSupply().call())
         setPaused(await contract.methods.paused().call());
         setIsWhitelistMintEnabled(await contract.methods.whitelistMintEnabled().call());
         
@@ -51,8 +56,9 @@ export default function Mint({ items }) {
 
     const testContract = async (value) => {
        try {
-        console.log(value);
-
+        // alert(value);
+    const tt  = await contract.methods.totalSupply().call()
+    console.log(tt);
         
         // const quantity = parseInt(value || 0);
         // const cost = parseInt(tokenPrice || 0);
@@ -89,7 +95,7 @@ export default function Mint({ items }) {
                 <div className="flex justify-center  w-1/2">
                   <div className="flex-row text-center">
                        <div>Supply</div>
-                       <div>{supply.toString()}</div>
+                       <div>{`${supply}/${maxSupply}`}</div>
                   </div>
                 </div>
 
@@ -149,35 +155,37 @@ export default function Mint({ items }) {
               </div>
 
               <div  className="my-5 border">
-                <div className="flex">
-                  <div className="w-1/2">Token Name</div>
-                  <div>{tokenName}</div>
-                  
-                 
+
+                <div className="flex py-4 border-b-2 border-gray-900">
+                  <div className="w-1/2 pl-10">Token Name</div>
+                  <div >{tokenName}</div>                 
                 </div>
-                <div className="flex">
-                   <div className="w-1/2">Token Symbol</div>
-                   <div>{tokenSymbol}</div>
+
+                <div className="flex py-4 border-b-2 border-gray-900">
+                   <div className="w-1/2 pl-10">Token Symbol</div>
+                   <div className="">{tokenSymbol}</div>
                 </div>
-                <div className="flex">
-                   <div className="w-1/2">Mint Wave</div>
+
+                <div className="flex py-4 border-b-2 border-gray-900">
+                   <div className="w-1/2 pl-10">Mint Wave</div>
                    <div>{mintWave.toString()}</div>
                 </div>
-                <div className="flex">
-                   <div  className="w-1/2">Wave Price</div>
-                   <div>{tokenPrice.toString()}</div>
+
+                <div className="flex py-4 border-b-2 border-gray-900">
+                   <div  className="w-1/2 pl-10">Wave Price</div>
+                   <div>{weiToEth(tokenPrice.toString())} ETH</div>
                 </div>
-                <div  className="flex">
-                   <div className="w-1/2">Max Amount per TX</div>
+
+                <div  className="flex py-4">
+                   <div className="w-1/2 pl-10">Max Amount per TX</div>
                    <div>{maxMintAmountPerTx.toString()}</div>
                 </div>
+
               </div>
 
 
               <div  className="my-5 border flex-row">
-                <div>Import Token to MetaMask</div>
-                <div>When a user opens their MetaMask, they are shown a variety of assets, including tokens. You can import UFF token by clicking a label</div>
-                <div>Import</div>
+                <MMPanel tokenName={tokenName} symbol={tokenSymbol}/> 
               </div>
 
 

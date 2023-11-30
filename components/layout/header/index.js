@@ -28,27 +28,24 @@ export default function Header() {
             <div className="flex justify-between items-center">
               <div className="flex flex-col xs:flex-row">
                 <div>
-                  <Link href="/">
+                  <Link href="/mint">
                     <div className="mr-3 uppercase sm:normal-case font-medium sm:mr-8 textHoverZinc">
-                      Home
+                      Mint
                     </div>
                   </Link>
                 </div>
-                <div>
-                  <Link href="/features">
-                    <div className="mr-3 uppercase sm:mr-8 sm:normal-case textHoverZinc">
-                      Features
-                    </div>
-                  </Link>
-                </div>
-                <div>
-                  {" "}
-                  <Link href="/marketplace">
-                    <div className="mr-3 uppercase sm:normal-case  sm:mr-8 textHoverZinc">
-                      Marketplace
-                    </div>
-                  </Link>
-                </div>
+             
+
+                {account.isAdmin && (
+                   <div>
+                   <Link href="/manage">
+                     <div className="mr-3 uppercase sm:mr-8 sm:normal-case text-green-400 textHoverZinc">
+                       Manage
+                     </div>
+                   </Link>
+                 </div>
+                )}
+                
               </div>
               <div className="flex items-center">
                 {account.isAdmin && (

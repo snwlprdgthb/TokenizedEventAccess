@@ -5,7 +5,7 @@ import weiToEth from '../../utils/weiToETH';
 export default function InputPanel({ onClick, price }) {
 
    const [count, setCount] = useState(1);
-   const [totalPriceInEth, setTotalPriceInEth] = useState(0)
+   const [totalPriceInEth, setTotalPriceInEth] = useState(0.000777)
 
    function handleChange(e) {
          
