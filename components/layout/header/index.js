@@ -17,7 +17,7 @@ export default function Header() {
 // const isLoading = false;
 // const requireInstall = false;
 
-//   const dappUrl = "polyhedron-ethmarket-lmt6c3lnn-kostyaposlushnoi.vercel.app/";
+//   const dappUrl = "";
 //   const metamaskAppDeepLink = "https://metamask.app.link/dapp/" + dappUrl;
 
   return (
@@ -27,6 +27,15 @@ export default function Header() {
           <nav className="relative">
             <div className="flex justify-between items-center">
               <div className="flex flex-col xs:flex-row">
+
+              <div>
+                  <Link href="/">
+                    <div className="mr-3 uppercase sm:normal-case font-medium sm:mr-8 textHoverZinc">
+                      Main
+                    </div>
+                  </Link>
+                </div>
+
                 <div>
                   <Link href="/mint">
                     <div className="mr-3 uppercase sm:normal-case font-medium sm:mr-8 textHoverZinc">

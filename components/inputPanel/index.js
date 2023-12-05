@@ -56,7 +56,7 @@ export default function InputPanel({ onClick, price }) {
     // const priceInETH = weiToEth(quantity * cost);
     // setTotalPriceInEth(priceInETH);
     convertToETH(count);
-    onClick(totalPriceInEth);
+    onClick(totalPriceInEth, count);
   }
 
   return (

@@ -9,18 +9,9 @@ export default function MMPanel({ customStyle, tokenName, symbol }) {
     const { provider } = useWeb3();
 
 
-const addToken =  async  () => {
-
+const addToken = async () => {
         try {
-
-            console.log(TOKEN_TYPE);
-            console.log(symbol);
-            console.log(TOKEN_DECIMALS);
-            console.log(TOKEN_ICON);
-            console.log(CONTRACT_ADDRESS);
-
-
-            const wasAdded = await provider.request({
+                await provider.request({
                 method: 'wallet_watchAsset',
                 params: {
                     type: TOKEN_TYPE,
@@ -32,13 +23,8 @@ const addToken =  async  () => {
                     },
                 },
             });
-            // if (!wasAdded) {
-            //     this.alertService.notify('Token import failed');
-            // }
         } catch (e) {
-            const { message = 'It looks like token impoty failed with exception. More info in debug console' } = e;
-            // this.alertService.notify(message);
-            console.warn('It looks like token import failed with exception', e);
+            console.warn('Looks like token import failed with exception :(', e);
         }
 
 

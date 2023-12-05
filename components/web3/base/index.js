@@ -1,14 +1,12 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
+import { ethers } from "ethers";
 import { CONTRACT_ABI,  CONTRACT_ADDRESS } from  "../../../utils/contractInfo";
-// import { MetaMaskSDK } from '@metamask/sdk';
 import {Web3} from "web3";
 import { setupHooks } from "@components/web3/hooks/setupHooks";
-// import { loadContract } from "@utils/loadContract";
+
 
 const Web3Context = createContext(null);
-
-
 
 
 export default function Web3Provider({ children }) {
@@ -16,49 +14,41 @@ export default function Web3Provider({ children }) {
     provider: null,
     web3: null,
     contract: null,
+    ethersContract: null,
     isLoading: true,
     requireInstall: true,
     hooks: setupHooks()
   });
 
   const setListener = provider => {
-    // provider.on("chainChanged", _ => window.location.reload());
+    provider.on("chainChanged", _ => window.location.reload());
   };
 
   useEffect(() => {
 
     const loadProvider = async () => {
-        console.log("LOAD PROVIDER USE EFFFECT");
+      console.log("LOAD PROVIDER USE EFFFECT");
       const provider = await detectEthereumProvider();
  
-    // const MMSDK = new MetaMaskSDK({
-    //     dappMetadata: {
-    //         name: "test_erc721a",
-    //       }
-    //   });
-    //   console.log(MMSDK);
-
-    //   await MMSDK.init()
-
-    //   const provider = MMSDK.getProvider();
-
-    //   console.log(provider);
-
-
       if (provider) {
-  console.log("PROVIDER");
+        console.log("PROVIDER");
         const web3 = new Web3(provider);
+        let contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
-
-        // const contract = await loadContract("Marketplace", provider);
-
-        let contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS)
+        // replace this part to web3.js when fix issue with correct convert string[] to bytes32[] in whitelistContains() smart contract func.
+        const ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
+        let ethersContract = new ethers.Contract(
+          CONTRACT_ADDRESS,
+          CONTRACT_ABI,
+          ethersProvider.getSigner())
+      ///
 
         setListener(provider);
         setWeb3api({
           provider,
           web3,
           contract,
+          ethersContract,
           isLoading: false,
         hooks: setupHooks(web3, null, provider),
           requireInstall: false
@@ -88,14 +78,11 @@ export default function Web3Provider({ children }) {
               });
             } catch (e){
               console.error("cannot access to account");
-              console.log(e);
-              console.log(Web3api)
-              alert();
               window.location.reload();
             }
           }
         : () => {
-            console.error(" cannot connect to meta mask ");
+            console.error("Cannot connect to Metamask :(");
           },
       requireInstall: !Web3api.isLoading && !Web3api.web3
     };
@@ -114,5 +101,6 @@ export function useHooks(cb) {
   const { hooks } = useWeb3();
   return cb(hooks);
 }
+
 
 

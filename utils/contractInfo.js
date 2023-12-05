@@ -1,12 +1,10 @@
-export const  CONTRACT_ADDRESS =  "0x25b02F79056d0089C63628E204305C9Aeb231369";
+export const  CONTRACT_ADDRESS =  "0x83756C6BCC02572491F82495d601fE7350c6576A";
 
 export const  TOKEN_TYPE =  "ERC20";
 
 export const  TOKEN_DECIMALS =  "0";
 
 export const  TOKEN_ICON =  "http://placekitten.com/200/300";
-
-
 
 
 export const CONTRACT_ABI =  [

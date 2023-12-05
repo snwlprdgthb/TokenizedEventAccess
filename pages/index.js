@@ -4,6 +4,7 @@ import Hero from "@components/hero"
 import Desc from "@components/description"
 import SecondPanel from "@components/secondPanel"
 import Slides from "@components/slides"
+import Func from "@components/func"
 import { BaseLayout } from "@components/layout";
 
 
@@ -27,6 +28,7 @@ export default function Home({ items }) {
         <Desc />
         <SecondPanel />
         <Slides />
+        <Func />
       </div>
     </main>
 

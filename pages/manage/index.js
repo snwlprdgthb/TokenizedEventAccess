@@ -5,6 +5,9 @@ import { Button } from "@components/layout";
 import { useAccount } from "@components/hooks/useAccount";
 import useOwner from "@components/hooks/useOwner";
 import Router from "next/router";
+import {getRootMerkle} from "@utils/merkleHelper"
+
+
 
 
 
@@ -19,8 +22,6 @@ export default function Manage({ items }) {
     const { account, shouldRedirect, redirectPath } = useOwner({
         redirectTo: "/"
       });
-
-
       
 
       useEffect(() => {
@@ -89,6 +90,24 @@ export default function Manage({ items }) {
         }
       }
 
+      const updateWhiteList = async () => {
+        try {
+          const value = [
+            "0x06d964C3BDe85Be3A7d9Ae20005180c25416C1Bf",
+            "0xD69CBefA8f95d0CAE072eE61FB2C9f1b554A0269",
+            "0x0600d0a43DFd2Be51aFD2D3618b5d04A0d2072BE",
+            "0x95470297E85E59ED7cEBB7c17100Bc002974deF8"
+        
+        ]
+
+          const root =  getRootMerkle(value);
+          await contract.methods.setMerkleRoot(root).send({from: account.account});
+
+        } catch(e) {
+          console.log(e);
+        }
+      }
+
 
     return (
       <div>
@@ -103,17 +122,21 @@ export default function Manage({ items }) {
             <div className="w-full flex flex-col  mt-5  items-center">
                 <div className="">
                 <div className="flex   justify-around">
-                    <Button  onClick={() => setPaused(false)} disabled={!pausedVeiw} className="py-2 px-3 rounded-xl border-none text-md  bg-green-600 hover:bg-green-400" colorProps={"white"}>Running</Button>
+                    <Button  onClick={() => setPaused(false)} disabled={!pausedVeiw && isWhitelistMintEnabledView  || !pausedVeiw } className="py-2 px-3 rounded-xl border-none text-md  bg-green-600 hover:bg-green-400" colorProps={"white"}>Running</Button>
                     <Button  onClick={() => setPaused(true)}  disabled={pausedVeiw} className="py-2 px-3 rounded-xl border-none text-md  bg-red-600 hover:bg-red-400" colorProps={"white"}>Paused</Button>
                 </div>
                 
           
-            <Button  onClick={() => setWhitelistMintEnabled(true)} className="py-2 w-full px-3 my-2 border-none rounded-xl text-md  bg-green-600 hover:bg-green-400" colorProps={"white"}>Whitelist Mint Enabled</Button>
-            <Button  onClick={() => setWhitelistMintEnabled(false)} className="py-2 px-3 w-full border-none rounded-xl text-md  bg-red-600 hover:bg-red-400" colorProps={"white"}>Whitelist Mint Disabled</Button>
+            <Button  onClick={() => setWhitelistMintEnabled(true)} disabled={isWhitelistMintEnabledView} className="py-2 w-full px-3 my-2 border-none rounded-xl text-md  bg-green-600 hover:bg-green-400" colorProps={"white"}>Whitelist Mint Enabled</Button>
+            <Button  onClick={() => setWhitelistMintEnabled(false)} disabled={!isWhitelistMintEnabledView} className="py-2 px-3 w-full border-none rounded-xl text-md  bg-red-600 hover:bg-red-400" colorProps={"white"}>Whitelist Mint Disabled</Button>
           
                     
                 </div>
             </div>
+
+            <Button className={"bg-indigo-500 hover:bg-indigo-600 border-none mt-6"} colorProps={"White "}  onClick={updateWhiteList}>
+              Update whitelist
+            </Button>
 
             <div>
                 <div className="text-lg mt-5">Current state:</div>
@@ -134,14 +157,7 @@ export default function Manage({ items }) {
     );
   }
   
-  export function getStaticProps() {
-    // const { data } = getAllItems();
-    return {
-      props: {
-        items: "data"
-      }
-    };
-  }
+
   
   Manage.Layout = BaseLayout;
   
